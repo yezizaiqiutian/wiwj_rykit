@@ -1,0 +1,47 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.rong.imkit">
+    <!-- 访问相册，访问文件系统等 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 拍照 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 拍照等 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 网络 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application android:supportsRtl="true">
+
+
+        <!--start图库配置项-->
+        <provider
+            android:name=".picture.PictureFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+
+        <activity android:name=".picture.PictureSelectorActivity" />
+        <activity
+            android:name=".picture.PictureSelectorCameraEmptyActivity"
+            android:theme="@style/Picture.Theme.Translucent" />
+
+        <activity android:name=".picture.PicturePreviewActivity" />
+        <activity
+            android:name=".picture.PictureVideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensor" />
+
+
+        <!--end图库配置项-->
+    </application>
+
+
+</manifest>
