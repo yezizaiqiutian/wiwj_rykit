@@ -41,6 +41,27 @@
 
 
         <!--end图库配置项-->
+
+
+        <activity
+            android:name="io.rong.sight.player.SightPlayerActivity"
+            android:hardwareAccelerated="true"
+            android:supportsRtl="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="${applicationId}"
+                    android:pathPrefix="/sight/player"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="io.rong.sight.player.SightListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.sight.record.SightRecordActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 
