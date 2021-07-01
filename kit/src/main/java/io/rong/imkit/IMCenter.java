@@ -67,6 +67,9 @@ public class IMCenter {
     private List<RongIMClient.SyncConversationReadStatusListener> mSyncConversationReadStatusListeners = new CopyOnWriteArrayList<>();
     private List<RongIMClient.TypingStatusListener> mTypingStatusListeners = new CopyOnWriteArrayList<>();
 
+    //当前的链接状态
+    private RongIMClient.ConnectionStatusListener.ConnectionStatus mConnectionStatus;
+
     private IMCenter() {
 
     }
@@ -1534,6 +1537,7 @@ public class IMCenter {
      */
     public void addConnectionStatusListener(RongIMClient.ConnectionStatusListener listener) {
         mConnectionStatusObserverList.add(listener);
+        listener.onChanged(mConnectionStatus);
     }
 
     /**
@@ -1604,6 +1608,7 @@ public class IMCenter {
             for (RongIMClient.ConnectionStatusListener listener : mConnectionStatusObserverList) {
                 listener.onChanged(connectionStatus);
             }
+            mConnectionStatus = connectionStatus;
         }
     };
 
