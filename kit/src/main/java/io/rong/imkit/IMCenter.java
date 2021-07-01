@@ -1537,6 +1537,10 @@ public class IMCenter {
      */
     public void addConnectionStatusListener(RongIMClient.ConnectionStatusListener listener) {
         mConnectionStatusObserverList.add(listener);
+    }
+
+    public void addConnectionStatusListenerWithLastStatus(RongIMClient.ConnectionStatusListener listener) {
+        mConnectionStatusObserverList.add(listener);
         listener.onChanged(mConnectionStatus);
     }
 
