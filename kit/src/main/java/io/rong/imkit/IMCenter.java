@@ -68,7 +68,7 @@ public class IMCenter {
     private List<RongIMClient.TypingStatusListener> mTypingStatusListeners = new CopyOnWriteArrayList<>();
 
     //当前的链接状态
-    private RongIMClient.ConnectionStatusListener.ConnectionStatus mConnectionStatus;
+    private RongIMClient.ConnectionStatusListener.ConnectionStatus mConnectionStatus = RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED;
 
     private IMCenter() {
 
