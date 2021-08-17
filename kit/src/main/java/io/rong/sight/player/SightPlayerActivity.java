@@ -142,8 +142,8 @@ public class SightPlayerActivity extends RongBaseNoActionbarActivity implements 
     private void initDownloadView() {
         rlSightDownload.setVisibility(View.VISIBLE);
         mThumbImageView = findViewById(R.id.rc_sight_thumb);
-        if (mSightMessage.getThumbUri() != null && mSightMessage.getThumbUri().getPath() != null) {
-            RongConfigCenter.featureConfig().getKitImageEngine().loadImage(this, mSightMessage.getThumbUri().getPath(), mThumbImageView);
+        if (mSightMessage.getThumbUri() != null && mSightMessage.getThumbUri().toString() != null) {
+            RongConfigCenter.featureConfig().getKitImageEngine().loadImage(this, mSightMessage.getThumbUri().toString(), mThumbImageView);
         }
         mSightDownloadProgress = findViewById(R.id.rc_sight_download_progress);
         mSightDownloadProgress.setVisibility(View.VISIBLE);
