@@ -55,6 +55,8 @@ public class NormalState implements IMessageState {
                         result = messages.subList(0, DEFAULT_COUNT);
                     }
                     messageViewModel.onGetHistoryMessage(result);
+                } else {
+                    getRemoteMessage(messageViewModel);
                 }
                 //处理未读消息
                 processUnread(messageViewModel);
@@ -243,6 +245,9 @@ public class NormalState implements IMessageState {
                                 viewModel.setState(IMessageState.historyState);
                             }
                         } else {
+
+
+
                             viewModel.setState(IMessageState.normalState);
                         }
                         viewModel.executePageEvent(new Event.RefreshEvent(RefreshState.LoadFinish));
