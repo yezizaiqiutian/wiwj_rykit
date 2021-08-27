@@ -89,4 +89,10 @@ public abstract class BaseBusinessProcessor implements IConversationBusinessProc
     public void onResume(MessageViewModel viewModel) {
 
     }
+
+    @Override
+    public boolean onReceivedCmd(MessageViewModel messageViewModel, Message message) {
+        return true;
+    }
+
 }

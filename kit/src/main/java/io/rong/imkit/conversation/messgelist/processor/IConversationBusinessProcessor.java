@@ -81,4 +81,14 @@ public interface IConversationBusinessProcessor {
     void onConnectStatusChange(MessageViewModel viewModel, RongIMClient.ConnectionStatusListener.ConnectionStatus status);
 
     void onResume(MessageViewModel viewModel);
+
+    /**
+     * 接收到命令消息，(MessageTag 为 None 或 Status 的消息)
+     *
+     * @param messageViewModel
+     * @param message          拦截的命令消息
+     * @return true，ui 不展示，false 在 ui 展示
+     */
+    boolean onReceivedCmd(MessageViewModel messageViewModel, Message message);
+
 }
