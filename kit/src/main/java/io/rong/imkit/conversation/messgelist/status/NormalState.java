@@ -64,7 +64,7 @@ public class NormalState implements IMessageState {
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-
+                getRemoteMessage(messageViewModel);
             }
         });
 
@@ -320,19 +320,17 @@ public class NormalState implements IMessageState {
     }
 
     public void getRemoteMessage(final MessageViewModel messageViewModel) {
-        RongIMClient.getInstance().getRemoteHistoryMessages(messageViewModel.getCurConversationType(), messageViewModel.getCurTargetId(), messageViewModel.getRefreshSentTime(), DEFAULT_COUNT + 1, new RongIMClient.ResultCallback<List<Message>>() {
+        RongIMClient.getInstance().getRemoteHistoryMessages(messageViewModel.getCurConversationType(), messageViewModel.getCurTargetId(), messageViewModel.getRefreshSentTime(), DEFAULT_REMOTE_COUNT, new RongIMClient.ResultCallback<List<Message>>() {
             @Override
             public void onSuccess(List<Message> messages) {
                 //不为空且大于0证明还有本地数据
                 if (messages != null && messages.size() > 0) {
                     //如果不等于默认拉取条数，则证明本地拉取完毕记录标记位
                     List<Message> result;
-                    if (messages.size() < DEFAULT_REMOTE_COUNT + 1) {
+                    if (messages.size() < DEFAULT_REMOTE_COUNT) {
                         messageViewModel.setRemoteMessageLoadFinish(true);
-                        result = messages;
-                    } else {
-                        result = messages.subList(0, DEFAULT_REMOTE_COUNT);
                     }
+                    result = messages;
                     messageViewModel.onGetHistoryMessage(result);
                 } else {
                     messageViewModel.setRemoteMessageLoadFinish(true);
