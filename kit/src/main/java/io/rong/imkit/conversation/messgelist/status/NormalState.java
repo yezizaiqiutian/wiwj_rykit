@@ -2,6 +2,7 @@ package io.rong.imkit.conversation.messgelist.status;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.config.RongConfigCenter;
@@ -17,6 +18,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
+import io.rong.message.RecallCommandMessage;
 
 import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_COUNT;
 import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_REMOTE_COUNT;
@@ -178,6 +180,9 @@ public class NormalState implements IMessageState {
         if (uiMessage.getContent() instanceof CommandMessage){
             return;
         }
+        if (uiMessage.getContent() instanceof RecallCommandMessage){
+            return;
+        }
 
         viewModel.getUiMessages().add(uiMessage);
         viewModel.updateUiMessages(false);
@@ -330,7 +335,7 @@ public class NormalState implements IMessageState {
                     if (messages.size() < DEFAULT_REMOTE_COUNT) {
                         messageViewModel.setRemoteMessageLoadFinish(true);
                     }
-                    result = messages;
+                    result = filterMessage(messages);
                     messageViewModel.onGetHistoryMessage(result);
                 } else {
                     messageViewModel.setRemoteMessageLoadFinish(true);
@@ -345,6 +350,18 @@ public class NormalState implements IMessageState {
         });
     }
 
+    public List<Message> filterMessage(List<Message> oldMessageList) {
+        List<Message> newMessageList = new ArrayList<>();
+        for (Message message : oldMessageList) {
+            if (message != null
+                    && !(message.getContent() instanceof RecallCommandMessage)
+                    && !(message.getContent() instanceof CommandMessage)
+            ) {
+                newMessageList.add(message);
+            }
+        }
+        return newMessageList;
+    }
 
     public void getLocalMessage(final MessageViewModel messageViewModel) {
         RongIMClient.getInstance().getHistoryMessages(messageViewModel.getCurConversationType(), messageViewModel.getCurTargetId(), messageViewModel.getRefreshMessageId(), DEFAULT_COUNT + 1, new RongIMClient.ResultCallback<List<Message>>() {
