@@ -12,6 +12,7 @@ import io.rong.imkit.widget.adapter.IViewProvider;
 import io.rong.imkit.widget.adapter.IViewProviderListener;
 import io.rong.imkit.widget.adapter.ViewHolder;
 
+//gh_change
 public class BaseConversationProvider implements IViewProvider<BaseUiConversation> {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -31,8 +32,9 @@ public class BaseConversationProvider implements IViewProvider<BaseUiConversatio
 //        holder.setText(R.id.rc_conversation_title, uiConversation.mCore.getConversationTitle());
 //
 //        //会话头像
+//
 //        if (!TextUtils.isEmpty(uiConversation.mCore.getPortraitUrl())) {
-//            RongConfigCenter.featureConfig().getKitImageEngine().loadConversationListPortrait(holder.getContext(), uiConversation.mCore.getPortraitUrl(), holder.<ImageView>getView(R.id.rc_conversation_portrait));
+//            RongConfigCenter.featureConfig().getKitImageEngine().loadConversationListPortrait(holder.getContext(), uiConversation.mCore.getPortraitUrl(), holder.<ImageView>getView(R.id.rc_conversation_portrait), uiConversation.mCore);
 //        } else {
 //            int drawableId = R.drawable.rc_default_portrait;
 //            if (uiConversation.mCore.getConversationType().equals(Conversation.ConversationType.GROUP)) {
@@ -42,7 +44,9 @@ public class BaseConversationProvider implements IViewProvider<BaseUiConversatio
 //            } else if (uiConversation.mCore.getConversationType().equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
 //                drawableId = R.drawable.rc_default_chatroom_portrait;
 //            }
-//            holder.setImageBitmapCircle(R.id.rc_conversation_portrait, drawableId);
+//
+//            Uri uri = RongUtils.getUriFromDrawableRes(holder.getContext(), drawableId);
+//            RongConfigCenter.featureConfig().getKitImageEngine().loadConversationListPortrait(holder.getContext(), uri.toString(), holder.<ImageView>getView(R.id.rc_conversation_portrait), uiConversation.mCore);
 //        }
 //        holder.getView(R.id.rc_conversation_portrait).setOnClickListener(new View.OnClickListener() {
 //            @Override

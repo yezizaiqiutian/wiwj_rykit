@@ -123,7 +123,7 @@ public class RongNotificationManager {
         IMCenter.getInstance().addOnRecallMessageListener(new RongIMClient.OnRecallMessageListener() {
             @Override
             public boolean onMessageRecalled(final Message message, RecallNotificationMessage recallNotificationMessage) {
-                if (!isRecallFiltered(message)) {
+                if (shouldNotify(message, 0, false, false)) {
                     getConversationNotificationStatus(message.getConversationType(), message.getTargetId(), new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
                         @Override
                         public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
@@ -296,7 +296,9 @@ public class RongNotificationManager {
         }
         // 离线消息和不计数消息，没有本地通知
         final MessageTag msgTag = message.getContent().getClass().getAnnotation(MessageTag.class);
-        if (offline || msgTag != null && (msgTag.flag() & MessageTag.ISCOUNTED) != MessageTag.ISCOUNTED) {
+        if (offline || msgTag != null
+                && (msgTag.flag() & MessageTag.ISCOUNTED) != MessageTag.ISCOUNTED
+                && !(message.getContent() instanceof RecallNotificationMessage)) {
             return false;
         }
 
@@ -322,22 +324,6 @@ public class RongNotificationManager {
         } else {
             return !isInQuietTime();
         }
-    }
-
-    private boolean isRecallFiltered(Message message) {
-        //聊天室或处于会话页面时，没有本地通知
-        if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)
-                || isInConversationPage()) {
-            return true;
-        }
-        MessageConfig messageConfig = message.getMessageConfig();
-        if (messageConfig != null && messageConfig.isDisableNotification()) {
-            return true;
-        }
-        if (!isQuietSettingSynced) {  //全局免打扰设置没有同步成功时，默认不弹通知。
-            getNotificationQuietHours(null);
-            return true;
-        } else return isInQuietTime();
     }
 
     private boolean isInConversationPage() {

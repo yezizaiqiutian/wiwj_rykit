@@ -1,5 +1,7 @@
 package io.rong.imkit.conversation.messgelist.status;
 
+import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_COUNT;
+
 import android.os.Bundle;
 
 import java.util.List;
@@ -15,8 +17,6 @@ import io.rong.imkit.widget.refresh.constant.RefreshState;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 
-import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_COUNT;
-
 public class HistoryState implements IMessageState {
     private boolean isLoading;
 
@@ -24,7 +24,13 @@ public class HistoryState implements IMessageState {
     }
 
     /**
+     * /~chinese
      * 跳转到指定历史消息
+     */
+
+    /**
+     * /~english
+     * Jump to the specified history message
      */
     @Override
     public void init(final MessageViewModel messageViewModel, Bundle bundle) {
@@ -99,7 +105,9 @@ public class HistoryState implements IMessageState {
     public void onReceived(MessageViewModel viewModel, UiMessage uiMessage, int left, boolean hasPackage, boolean offline) {
         //不在最底部，添加到未读列表
         if (!viewModel.isScrollToBottom()) {
-            viewModel.getNewUnReadMessages().add(uiMessage);
+            if (!viewModel.filterMessageToHideNewMessageBar(uiMessage)) {
+                viewModel.getNewUnReadMessages().add(uiMessage);
+            }
             if (RongConfigCenter.conversationConfig().isShowNewMentionMessageBar(uiMessage.getConversationType())) {
                 viewModel.updateMentionMessage(uiMessage.getMessage());
             }
@@ -127,7 +135,7 @@ public class HistoryState implements IMessageState {
                     viewModel.executePageEvent(new ScrollToEndEvent());
                 }
                 viewModel.setState(IMessageState.normalState);
-                viewModel.updateUiMessages();
+                viewModel.refreshAllMessage();
             }
 
             @Override
@@ -142,7 +150,13 @@ public class HistoryState implements IMessageState {
     }
 
     /**
+     * /~chinese
      * @param viewModel 历史消息滑动到底部不做任何处理，继续加载更多
+     */
+
+    /**
+     * /~english
+     * @param viewModel Historical messages slide to the bottom without any processing and continue to load more
      */
     @Override
     public void onScrollToBottom(MessageViewModel viewModel) {
@@ -150,7 +164,13 @@ public class HistoryState implements IMessageState {
     }
 
     /**
+     * /~chinese
      * @param viewModel 历史状态不做任何处理
+     */
+
+    /**
+     * /~english
+     * @param viewModel The historical state does not do anything to deal with it
      */
     @Override
     public void onHistoryBarClick(MessageViewModel viewModel) {

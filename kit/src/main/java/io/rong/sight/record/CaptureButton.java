@@ -429,57 +429,127 @@ public class CaptureButton extends View {
 
     public interface CaptureListener {
         /**
+         * /~chinese
          * 拍照
+         */
+
+        /**
+         * /~english
+         * Take a image
          */
         void capture();
 
         /**
+         * /~chinese
          * 拍照预览时选择重新拍摄
+         */
+
+        /**
+         * /~english
+         * Choose to re-shoot when taking a image preview
          */
         void cancel();
 
         /**
+         * /~chinese
          * 拍照预览时选择确认
+         */
+
+        /**
+         * /~english
+         * Select confirm when taking a image preview
          */
         void determine();
 
         /**
+         * /~chinese
          * 退出小视频拍摄
+         */
+
+        /**
+         * /~english
+         * Quit shooting small videos
          */
         void quit();
 
         /**
+         * /~chinese
          * 开始录制视频
+         */
+
+        /**
+         * /~english
+         * Start recording video
          */
         void record();
 
         /**
+         * /~chinese
          * 录制结束
+         */
+
+        /**
+         * /~english
+         * End of recording
          */
         void recordEnd(long duration);
 
         /**
+         * /~chinese
          * 录制预览时选择确认时执行
+         */
+
+        /**
+         * /~english
+         * Execute when you select confirmation when recording a preview
          */
         void getRecordResult();
 
         /**
+         * /~chinese
          * 录制预览时选择重新拍摄删除当前拍摄视频时执行
+         */
+
+        /**
+         * /~english
+         * Execute when you select to re-shoot and delete the current video when recording the preview
          */
         void deleteRecordResult();
 
         /**
+         * /~chinese
          * 录制时放大
+         */
+
+        /**
+         * /~english
+         * Zoom in during recording
+         *
+         * @param scaleValue scaleValue
          */
         void scale(float scaleValue);
 
         /**
+         * /~chinese
          * 录制时更新时间进度
+         */
+
+        /**
+         * /~english
+         * Update time schedule during recording
+         *
+         * @param progress progress
          */
         void recordProgress(int progress);
 
         /**
+         * /~chinese
          * 录制时间短时提示用户后直接重新拍摄
+         */
+
+        /**
+         * /~english
+         * The recording time prompts the user for a short time and then directly re-shoots
          */
         void retryRecord();
     }

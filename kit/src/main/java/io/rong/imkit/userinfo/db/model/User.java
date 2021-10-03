@@ -3,12 +3,9 @@ package io.rong.imkit.userinfo.db.model;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.net.URL;
 
 import io.rong.imlib.model.UserInfo;
 

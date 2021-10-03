@@ -83,9 +83,6 @@ public class InputPanel {
         }
     }
 
-    public InputPanel() {
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     private void initView(final Context context, ViewGroup parent) {
         mContext = context;
@@ -185,9 +182,17 @@ public class InputPanel {
     }
 
     /**
+     * /~chinese
      * 设置 InputPanel 样式.
      *
      * @param style 目前支持 5 种样式，参照: {@link InputStyle}
+     */
+
+    /**
+     * /~english
+     * Set the InputPanel style
+     *
+     * @param style Five styles are currently supported. Refer to: {@link InputStyle}
      */
     public void setInputPanelStyle(InputStyle style) {
         switch (style) {
@@ -398,19 +403,43 @@ public class InputPanel {
 
     public enum InputStyle {
         /**
+         * /~chinese
          * 录音切换-输入框-扩展
+         */
+
+        /**
+         * /~english
+         * Recording toggle-input box-extension
          */
         STYLE_SWITCH_CONTAINER_EXTENSION(0x123),
         /**
+         * /~chinese
          * 录音切换-输入框
+         */
+
+        /**
+         * /~english
+         * Recording toggle-input box
          */
         STYLE_SWITCH_CONTAINER(0x120),
         /**
+         * /~chinese
          * 输入框-扩展
+         */
+
+        /**
+         * /~english
+         * Input box-extension
          */
         STYLE_CONTAINER_EXTENSION(0x023),
         /**
+         * /~chinese
          * 仅有输入框
+         */
+
+        /**
+         * /~english
+         * Only input boxes
          */
         STYLE_CONTAINER(0x020);
 

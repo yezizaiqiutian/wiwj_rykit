@@ -70,7 +70,7 @@
     <string name="rc_recalled_a_message">&#160;撤回了一条消息</string>
     <string name="rc_admin_recalled_message">管理员&#160;撤回了一条消息</string>
     <string name="rc_unknow">未知类型消息</string>
-    <string name="rc_unread_message">{0}条新消息</string>
+    <string name="rc_unread_message">{0} 条新消息</string>
     <string name="rc_new_message_divider_content">以上是历史消息</string>
     <string name="rc_recall_failed_for_network_unavailable">撤回不成功，请检查网络连接</string>
     <string name="rc_recall_overtime">该消息超过撤回时间，不能被撤回。</string>
@@ -491,7 +491,6 @@
 
     <string name="rc_receive_new_message">你收到一条新消息</string>
     <string name="rc_exceeded_max_limit_100">聊天记录选择不能超过 100 条</string>
-    <string name="rc_location_service_dialog_title">打开定位服务</string>
 
     <string name="rc_read_all">阅读全文</string>
 
@@ -501,14 +500,4 @@
 
     <string name="rc_mention_messages">有人@我 %s</string>
     <string name="rc_media_upload_error">不能上传 0kb 的文件</string>
-
-
-    <string name="rc_plugin_sight">小视频</string>
-    <string name="rc_sight_reminder">长按录制小视频</string>
-    <string name="rc_sight_list_title">聊天文件</string>
-    <string name="rc_sight_download_failed">下载失败，点击重新下载</string>
-    <string name="rc_sight_record_too_short_time">录制时间短，请重试</string>
-    <string name="rc_sight_message_recalled">消息被撤回</string>
-    <string name="rc_save_video">保存视频</string>
-    <string name="rc_save_video_success">视频保存成功</string>
 </resources>

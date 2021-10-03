@@ -24,7 +24,13 @@ import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.D
 import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_REMOTE_COUNT;
 
 /**
+ * /~chinese
  * 会话页面当前状态，正常模式
+ */
+//gh_change
+/**
+ * /~english
+ * Current state of conversation page, normal mode
  */
 public class NormalState implements IMessageState {
 
@@ -35,10 +41,19 @@ public class NormalState implements IMessageState {
     }
 
     /**
+     * /~chinese
      * 正常模式，初始化，拉取本地历史记录，处理未读数
      *
      * @param messageViewModel MessageViewModel
      * @param bundle           Bundle
+     */
+
+    /**
+     * /~english
+     * Normal mode, initialize, pull local history, process unread number
+     *
+     * @param messageViewModel MessageViewModel
+     * @param bundle Bundle
      */
     @Override
     public void init(final MessageViewModel messageViewModel, Bundle bundle) {
@@ -104,11 +119,6 @@ public class NormalState implements IMessageState {
                 @Override
                 public void onSuccess(List<Message> messages) {
                     if (messages != null && messages.size() > 0) {
-                        int messageId = messages.get(0).getMessageId();
-                        int index = messageViewModel.findPositionByMessageId(messageId);
-                        if (index >= 0) {
-                            messageViewModel.executePageEvent(new ScrollEvent(index));
-                        }
                         messageViewModel.setNewUnReadMentionMessages(messages);
                         messageViewModel.executePageEvent(new ScrollMentionEvent());
                     }
@@ -151,7 +161,15 @@ public class NormalState implements IMessageState {
     }
 
     /**
+     * /~chiense
      * 正常模式不需要上拉加载更多，直接关闭
+     *
+     * @param viewModel MessageViewModel
+     */
+
+    /**
+     * /~english
+     * Normal mode, do not pull up and load more, just close it
      *
      * @param viewModel MessageViewModel
      */
@@ -166,6 +184,7 @@ public class NormalState implements IMessageState {
     }
 
     /**
+     * /~chinese
      * 正常模式，按流程处理
      *
      * @param viewModel  MessageViewModel
@@ -174,23 +193,33 @@ public class NormalState implements IMessageState {
      * @param hasPackage 是否在服务端还存在未下发的消息包
      * @param offline    消息是否离线消息
      */
+
+    /**
+     * /~english
+     * Normal mode, process according to the procedures
+     *
+     * @param viewModel MessageViewModel
+     * @param uiMessage Received message object
+     * @param left The number of messages left after each packet is thrown up one by one
+     * @param hasPackage Whether there are any undistributed message packets on the server
+     * @param offline Whether the message is offline
+     */
     @Override
     public void onReceived(MessageViewModel viewModel, UiMessage uiMessage, int left, boolean hasPackage, boolean offline) {
-
         if (uiMessage.getContent() instanceof CommandMessage){
             return;
         }
         if (uiMessage.getContent() instanceof RecallCommandMessage){
             return;
         }
-
-        viewModel.getUiMessages().add(uiMessage);
-        viewModel.updateUiMessages(false);
+        int insertPosition = viewModel.findPositionBySendTime(uiMessage.getMessage().getSentTime());
+        viewModel.getUiMessages().add(insertPosition, uiMessage);
+        viewModel.refreshAllMessage(false);
         viewModel.updateMentionMessage(uiMessage.getMessage());
         // newMessageBar 逻辑
         if (RongConfigCenter.conversationConfig().isShowNewMessageBar(uiMessage.getConversationType())) {
             //不在最底部，添加到未读列表
-            if (!viewModel.isScrollToBottom()) {
+            if (!viewModel.isScrollToBottom() && !viewModel.filterMessageToHideNewMessageBar(uiMessage)) {
                 viewModel.getNewUnReadMessages().add(uiMessage);
             }
             //判断ui是否滑动到底部
@@ -215,7 +244,9 @@ public class NormalState implements IMessageState {
     @Override
     public void onNewMentionMessageBarClick(MessageViewModel viewModel) {
         List<Message> mMentionMessages = viewModel.getNewUnReadMentionMessages();
-        if (mMentionMessages.size() > 0) {
+        if (mMentionMessages.isEmpty()) {
+            viewModel.updateNewMentionMessageUnreadBar();
+        } else {
             io.rong.imlib.model.Message message = mMentionMessages.get(0);
             int position = viewModel.findPositionByMessageId(message.getMessageId());
             if (position >= 0) {
@@ -230,10 +261,9 @@ public class NormalState implements IMessageState {
                 getMentionMessage(viewModel, isNewMentionMessage, message);
             }
         }
-        viewModel.processNewMentionMessageUnread(true);
     }
 
-    private void getMentionMessage(final MessageViewModel viewModel, boolean isNewMentionMessage, Message message) {
+    private void getMentionMessage(final MessageViewModel viewModel, boolean isNewMentionMessage, final Message message) {
         if (isNewMentionMessage) {
             if (!isLoading) {
                 isLoading = true;
@@ -250,13 +280,14 @@ public class NormalState implements IMessageState {
                                 viewModel.setState(IMessageState.historyState);
                             }
                         } else {
-
-
-
                             viewModel.setState(IMessageState.normalState);
                         }
                         viewModel.executePageEvent(new Event.RefreshEvent(RefreshState.LoadFinish));
                         isLoading = false;
+                        int position = viewModel.findPositionByMessageId(message.getMessageId());
+                        if (position >= 0) {
+                            viewModel.executePageEvent(new ScrollEvent(position));
+                        }
                     }
 
                     @Override

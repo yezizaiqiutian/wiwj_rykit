@@ -21,6 +21,7 @@ public class SightExtensionModule implements IExtensionModule {
     @Override
     public void onInit(Context context, String appKey) {
         RongIMClient.getInstance().registerMessageType(SightMessage.class);
+        //gh_change
 //        RongConfigCenter.conversationConfig().addMessageProvider(new SightMessageItemProvider());
     }
 

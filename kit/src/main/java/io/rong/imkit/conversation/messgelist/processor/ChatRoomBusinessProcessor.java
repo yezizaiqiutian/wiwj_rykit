@@ -26,19 +26,6 @@ public class ChatRoomBusinessProcessor extends BaseBusinessProcessor {
     private int rc_chatRoom_first_pull_message_count;
 
     @Override
-    public int getHistoryMessageCount() {
-        int count = rc_chatRoom_first_pull_message_count;
-        if (count == 0) {
-            //等于0取默认值
-            return 10;
-        } else if (count == -1) {
-            return 0;
-        } else {
-            return count;
-        }
-    }
-
-    @Override
     public void init(final MessageViewModel messageViewModel, Bundle bundle) {
         rc_chatRoom_first_pull_message_count = RongConfigCenter.conversationConfig().rc_chatroom_first_pull_message_count;
         boolean createIfNotExist = bundle.getBoolean(RouteUtils.CREATE_CHATROOM, true);
@@ -84,7 +71,7 @@ public class ChatRoomBusinessProcessor extends BaseBusinessProcessor {
                     for (UiMessage item : messageViewModel.getUiMessages()) {
                         item.onUserInfoUpdate(users);
                     }
-                    messageViewModel.updateUiMessages();
+                    messageViewModel.refreshAllMessage(false);
                 }
             }
         });
@@ -97,6 +84,19 @@ public class ChatRoomBusinessProcessor extends BaseBusinessProcessor {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getHistoryMessageCount() {
+        int count = rc_chatRoom_first_pull_message_count;
+        if (count == 0) {
+            //等于0取默认值
+            return 10;
+        } else if (count == -1) {
+            return 0;
+        } else {
+            return count;
+        }
     }
 
 }

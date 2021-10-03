@@ -1,16 +1,19 @@
 package io.rong.imkit.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.rong.common.RLog;
 import io.rong.imkit.R;
 
 
 public class RongDateUtils {
 
+    private static final String TAG = RongDateUtils.class.getCanonicalName();
     private static final int OTHER = 2014;
     private static final int TODAY = 6;
     private static final int YESTERDAY = 15;
@@ -236,8 +239,18 @@ public class RongDateUtils {
     }
 
     public static String formatDate(Date date, String fromat) {
-        SimpleDateFormat sdf = new SimpleDateFormat(fromat);
-        return sdf.format(date);
+        if (TextUtils.isEmpty(fromat)) {
+            return "";
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(fromat);
+            return sdf.format(date);
+        } catch (IllegalArgumentException e1) {
+            RLog.e(TAG, "the given pattern is invalid.");
+        }
+
+        return "";
     }
 
 }

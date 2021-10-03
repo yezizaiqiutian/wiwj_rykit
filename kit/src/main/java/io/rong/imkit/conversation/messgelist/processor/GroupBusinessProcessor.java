@@ -36,7 +36,7 @@ public class GroupBusinessProcessor extends BaseBusinessProcessor {
                     for (UiMessage item : messageViewModel.getUiMessages()) {
                         item.onUserInfoUpdate(users);
                     }
-                    messageViewModel.updateUiMessages();
+                    messageViewModel.refreshAllMessage(false);
                 }
             }
         });
@@ -55,7 +55,7 @@ public class GroupBusinessProcessor extends BaseBusinessProcessor {
                         }
                     }
                     if (isExist) {
-                        messageViewModel.updateUiMessages();
+                        messageViewModel.refreshAllMessage(false);
                     }
                 }
             }
@@ -90,6 +90,34 @@ public class GroupBusinessProcessor extends BaseBusinessProcessor {
         return false;
     }
 
+    /**
+     * /~chinese
+     * 当加载完消息，群组发送已读回执
+     */
+
+    /**
+     * /~english
+     * When the message is loaded, the group sends a read receipt
+     */
+    @Override
+    public void onLoadMessage(MessageViewModel viewModel, List<Message> messages) {
+        if (!RongConfigCenter.conversationConfig().isShowReadReceiptRequest(viewModel.getCurConversationType())) {
+            return;
+        }
+        List<Message> responseMessageList = new ArrayList<>();
+        for (Message message : messages) {
+            ReadReceiptInfo readReceiptInfo = message.getReadReceiptInfo();
+            if (readReceiptInfo == null) {
+                continue;
+            }
+            if (readReceiptInfo.isReadReceiptMessage() && !readReceiptInfo.hasRespond()) {
+                responseMessageList.add(message);
+            }
+        }
+        if (responseMessageList.size() > 0) {
+            RongIMClient.getInstance().sendReadReceiptResponse(viewModel.getCurConversationType(), viewModel.getCurTargetId(), responseMessageList, null);
+        }
+    }
 
     @Override
     public void onMessageReceiptRequest(final MessageViewModel viewModel, Conversation.ConversationType conversationType, String targetId, String messageUId) {
@@ -124,29 +152,6 @@ public class GroupBusinessProcessor extends BaseBusinessProcessor {
                 });
                 break;
             }
-        }
-    }
-
-    /**
-     * 当加载完消息，群组发送已读回执
-     */
-    @Override
-    public void onLoadMessage(MessageViewModel viewModel, List<Message> messages) {
-        if (!RongConfigCenter.conversationConfig().isShowReadReceiptRequest(viewModel.getCurConversationType())) {
-            return;
-        }
-        List<io.rong.imlib.model.Message> responseMessageList = new ArrayList<>();
-        for (io.rong.imlib.model.Message message : messages) {
-            ReadReceiptInfo readReceiptInfo = message.getReadReceiptInfo();
-            if (readReceiptInfo == null) {
-                continue;
-            }
-            if (readReceiptInfo.isReadReceiptMessage() && !readReceiptInfo.hasRespond()) {
-                responseMessageList.add(message);
-            }
-        }
-        if (responseMessageList.size() > 0) {
-            RongIMClient.getInstance().sendReadReceiptResponse(viewModel.getCurConversationType(), viewModel.getCurTargetId(), responseMessageList, null);
         }
     }
 }

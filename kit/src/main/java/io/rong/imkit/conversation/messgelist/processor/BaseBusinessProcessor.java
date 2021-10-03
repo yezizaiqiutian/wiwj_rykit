@@ -14,7 +14,13 @@ import io.rong.imlib.model.UserInfo;
 import static io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel.DEFAULT_COUNT;
 
 /**
+ * /~chinese
  * 处理单聊、群聊、讨论组逻辑的公共类
+ */
+
+/**
+ * /~english
+ * Common classes that deal with single chat, group chat, and discussion group logic
  */
 public abstract class BaseBusinessProcessor implements IConversationBusinessProcessor {
 
@@ -22,6 +28,11 @@ public abstract class BaseBusinessProcessor implements IConversationBusinessProc
     @Override
     public boolean onReceived(MessageViewModel viewModel, UiMessage message, int left, boolean hasPackage, boolean offline) {
         return false;
+    }
+
+    @Override
+    public boolean onReceivedCmd(MessageViewModel messageViewModel, Message message) {
+        return true;
     }
 
     @Override
@@ -66,7 +77,13 @@ public abstract class BaseBusinessProcessor implements IConversationBusinessProc
     }
 
     /**
+     * /~chinese
      * @return 初始化时，拉取的历史条数，目前只有聊天室需要复写
+     */
+
+    /**
+     * /~english
+     * @return The number of history entries pulled during initialization. Currently, only chatrooms shall be copied
      */
     public int getHistoryMessageCount() {
         return DEFAULT_COUNT + 1;
@@ -78,7 +95,13 @@ public abstract class BaseBusinessProcessor implements IConversationBusinessProc
     }
 
     /**
+     * /~chinese
      * 检查已读状态，如果 sp 有内容，则发送
+     */
+
+    /**
+     * /~english
+     * Check the read status and send if the sp has content
      */
     @Override
     public void onConnectStatusChange(MessageViewModel viewModel, RongIMClient.ConnectionStatusListener.ConnectionStatus status) {
@@ -88,11 +111,6 @@ public abstract class BaseBusinessProcessor implements IConversationBusinessProc
     @Override
     public void onResume(MessageViewModel viewModel) {
 
-    }
-
-    @Override
-    public boolean onReceivedCmd(MessageViewModel messageViewModel, Message message) {
-        return true;
     }
 
 }

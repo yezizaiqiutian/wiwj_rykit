@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 /**
     图库加载接口
  */
+//gh_change
 public interface ImageEngine {
 
     /**
@@ -29,17 +30,6 @@ public interface ImageEngine {
     void loadCircleImage(@NonNull Context context, @NonNull int resId, @NonNull ImageView imageView);
 
     /**
-     * 加载gif图片
-     *
-     * @param context   上下文
-     * @param url       图片路径
-     * @param imageView 承载图片ImageView
-     */
-    void loadAsGifImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView);
-
-    /**未整理**/
-
-    /**
      * 加载图片
      *
      * @param context
@@ -56,6 +46,15 @@ public interface ImageEngine {
      * @param imageView 承载图片ImageView
      */
     void loadFolderImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView);
+
+    /**
+     * 加载gif图片
+     *
+     * @param context   上下文
+     * @param url       图片路径
+     * @param imageView 承载图片ImageView
+     */
+    void loadAsGifImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView);
 
     /**
      * 加载图片列表图片

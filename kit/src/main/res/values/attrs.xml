@@ -170,12 +170,12 @@
         <attr name="show_middle" format="boolean" />
     </declare-styleable>
 
-    <!--<declare-styleable name="CircleProgress">
-        <attr name="circleProgress" format="integer" /> &lt;!&ndash; 进度0-100 &ndash;&gt;
-        <attr name="startAngle" format="integer" /> &lt;!&ndash; 开始的角度0-360 &ndash;&gt;
-        <attr name="circleCorner" format="dimension" /> &lt;!&ndash; 圆角 &ndash;&gt;
-        <attr name="backgroundColor" format="color" /> &lt;!&ndash; 背景的颜色 &ndash;&gt;
-    </declare-styleable>-->
+    <declare-styleable name="CircleProgress">
+        <attr name="circleProgress" format="integer" /> <!-- 进度0-100 -->
+        <attr name="startAngle" format="integer" /> <!-- 开始的角度0-360 -->
+        <attr name="circleCorner" format="dimension" /> <!-- 圆角 -->
+        <attr name="backgroundColor" format="color" /> <!-- 背景的颜色 -->
+    </declare-styleable>
 
     <style name="dialogFullscreen">
         <item name="android:windowFullscreen">true</item>

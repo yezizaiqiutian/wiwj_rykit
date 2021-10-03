@@ -32,6 +32,64 @@ public class RongExtensionViewModel extends AndroidViewModel {
     private String mTargetId;
     private EditText mEditText;
     private boolean isSoftInputShow;
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        private int start;
+        private int count;
+        private boolean isProcess;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (isProcess) {
+                return;
+            }
+            this.start = start;
+            this.count = count;
+
+            int cursor, offset;
+            if (count == 0) {
+                cursor = start + before;
+                offset = -before;
+            } else {
+                cursor = start;
+                offset = count;
+            }
+            for (IExtensionEventWatcher watcher : RongExtensionManager.getInstance().getExtensionEventWatcher()) {
+                watcher.onTextChanged(getApplication().getApplicationContext(), mConversationType, mTargetId, cursor, offset, s.toString());
+            }
+
+            if (mInputModeLiveData.getValue() != InputMode.EmoticonMode
+                    && mInputModeLiveData.getValue() != InputMode.RecognizeMode) {
+                mInputModeLiveData.postValue(InputMode.TextInput);
+                if (mEditText.getText() != null && mEditText.getText().length() > 0) {
+                    mEditText.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setSoftInputKeyBoard(true);
+                        }
+                    }, 100);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isProcess) {
+                return;
+            }
+            if (AndroidEmoji.isEmoji(s.subSequence(start, start + count).toString())) {
+                isProcess = true;
+                String resultStr = AndroidEmoji.replaceEmojiWithText(s.toString());
+                mEditText.setText(AndroidEmoji.ensure(resultStr), TextView.BufferType.SPANNABLE);
+                mEditText.setSelection(mEditText.getText().length());
+                isProcess = false;
+            }
+        }
+    };
 
     public RongExtensionViewModel(@NonNull Application application) {
         super(application);
@@ -40,7 +98,7 @@ public class RongExtensionViewModel extends AndroidViewModel {
         mAttachedInfoState = new MutableLiveData<>();
     }
 
-    public void setAttachedConversation(Conversation.ConversationType type, String targetId, EditText editText) {
+    void setAttachedConversation(Conversation.ConversationType type, String targetId, EditText editText) {
         mConversationType = type;
         mTargetId = targetId;
         mEditText = editText;
@@ -48,13 +106,6 @@ public class RongExtensionViewModel extends AndroidViewModel {
         if (type.equals(Conversation.ConversationType.GROUP)) {
             RongMentionManager.getInstance().createInstance(type, targetId, mEditText); //todo 更改实现方式，由 mention 模块 addTextWatcher.
         }
-    }
-
-    public void setEditTextWidget(EditText editText) {
-        mEditText.setText("");
-        mEditText = null;
-        mEditText = editText;
-        mEditText.addTextChangedListener(mTextWatcher);
     }
 
     public void onSendClick() {
@@ -88,43 +139,6 @@ public class RongExtensionViewModel extends AndroidViewModel {
         IMCenter.getInstance().sendMessage(message, DestructManager.isActive() ? getApplication().getResources().getString(R.string.rc_conversation_summary_content_burn) : null, null, null);
     }
 
-    public void forceSetSoftInputKeyBoard(boolean isShow) {
-        InputMethodManager imm = (InputMethodManager) getApplication().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            if (isShow) {
-                mEditText.requestFocus();
-                imm.showSoftInput(mEditText, 0);
-            } else {
-                imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-                mEditText.clearFocus();
-            }
-            isSoftInputShow = isShow;
-        }
-        if (isShow && mExtensionBoardState.getValue() != null && mExtensionBoardState.getValue().equals(false)) {
-            mExtensionBoardState.setValue(true);
-        }
-    }
-
-    public void setSoftInputKeyBoard(boolean isShow) {
-        if (isSoftInputShow == isShow) {
-            return;
-        }
-        forceSetSoftInputKeyBoard(isShow);
-    }
-
-    /**
-     * 收起面板，RongExtension 仅显示 InputPanel。
-     */
-    public void collapseExtensionBoard() {
-        if (mExtensionBoardState.getValue() != null && mExtensionBoardState.getValue().equals(false)) {
-            RLog.d(TAG, "already collapsed, return directly.");
-            return;
-        }
-        RLog.d(TAG, "collapseExtensionBoard");
-        setSoftInputKeyBoard(false);
-        mExtensionBoardState.postValue(false);
-    }
-
     public boolean isSoftInputShow() {
         return isSoftInputShow;
     }
@@ -146,86 +160,108 @@ public class RongExtensionViewModel extends AndroidViewModel {
     }
 
     /**
+     * /~chinese
+     * 收起面板，RongExtension 仅显示 InputPanel。
+     */
+
+    /**
+     * /~english
+     * Fold up the panel and RongExtension displays only InputPanel.
+     */
+    public void collapseExtensionBoard() {
+        if (mExtensionBoardState.getValue() != null && mExtensionBoardState.getValue().equals(false)) {
+            RLog.d(TAG, "already collapsed, return directly.");
+            return;
+        }
+        RLog.d(TAG, "collapseExtensionBoard");
+        setSoftInputKeyBoard(false);
+        mExtensionBoardState.postValue(false);
+    }
+
+    public void setSoftInputKeyBoard(boolean isShow) {
+        if (isSoftInputShow == isShow) {
+            return;
+        }
+        forceSetSoftInputKeyBoard(isShow);
+    }
+
+    public void forceSetSoftInputKeyBoard(boolean isShow) {
+        InputMethodManager imm = (InputMethodManager) getApplication().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            if (isShow) {
+                mEditText.requestFocus();
+                imm.showSoftInput(mEditText, 0);
+            } else {
+                imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                mEditText.clearFocus();
+            }
+            isSoftInputShow = isShow;
+        }
+        if (isShow && mExtensionBoardState.getValue() != null && mExtensionBoardState.getValue().equals(false)) {
+            mExtensionBoardState.setValue(true);
+        }
+    }
+
+    /**
+     * /~chinese
      * 获取 EditText 控件
      *
      * @return EditText 控件
+     */
+
+    /**
+     * /~english
+     * Get EditText control
+     *
+     * @return EditText control
      */
     public EditText getEditTextWidget() {
         return mEditText;
     }
 
-    public MutableLiveData<Boolean> getAttachedInfoState() {
+    public void setEditTextWidget(EditText editText) {
+        mEditText.setText("");
+        mEditText = null;
+        mEditText = editText;
+        mEditText.addTextChangedListener(mTextWatcher);
+    }
+
+    MutableLiveData<Boolean> getAttachedInfoState() {
         return mAttachedInfoState;
     }
 
     /**
+     * /~chinese
      * 获取面板打开状态。 value < 0 面板收起； value > 0, 代表面板打开，value 为面板打开后的高度。
      *
      * @return 面板状态 LiveData
+     */
+
+    /**
+     * /~english
+     * Get the open status of the panel. value< 0 which means the panel is close； value >0, which means the panel is open, and value is the height after the panel is opened.
+     *
+     * @return Panel status LiveData
      */
     public MutableLiveData<Boolean> getExtensionBoardState() {
         return mExtensionBoardState;
     }
 
     /**
+     * /~chinese
      * 获取输入模式的 LiveData
      *
      * @return 输入模式对应的  LiveData
      */
+
+    /**
+     * /~english
+     * Get the LiveData of the input mode
+     *
+     * @return Enter the LiveData corresponding to the mode
+     */
     public MutableLiveData<InputMode> getInputModeLiveData() {
         return mInputModeLiveData;
     }
-
-    private TextWatcher mTextWatcher = new TextWatcher() {
-        private int start;
-        private int count;
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            this.start = start;
-            this.count = count;
-
-            int cursor, offset;
-            if (count == 0) {
-                cursor = start + before;
-                offset = -before;
-            } else {
-                cursor = start;
-                offset = count;
-            }
-            for (IExtensionEventWatcher watcher : RongExtensionManager.getInstance().getExtensionEventWatcher()) {
-                watcher.onTextChanged(getApplication().getApplicationContext(), mConversationType, mTargetId, cursor, offset, s.toString());
-            }
-
-            if (mInputModeLiveData.getValue() != InputMode.EmoticonMode
-                    && mInputModeLiveData.getValue() != InputMode.RecognizeMode) {
-                mInputModeLiveData.postValue(InputMode.TextInput);
-                if (mEditText.getText() != null && mEditText.getText().length() > 0) {
-                    mEditText.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setSoftInputKeyBoard(true);
-                        }
-                    }, 100);
-                }
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (AndroidEmoji.isEmoji(s.subSequence(start, start + count).toString())) {
-                mEditText.removeTextChangedListener(this);
-                String resultStr = AndroidEmoji.replaceEmojiWithText(s.toString());
-                mEditText.setText(AndroidEmoji.ensure(resultStr), TextView.BufferType.SPANNABLE);
-                mEditText.setSelection(mEditText.getText().length());
-                mEditText.addTextChangedListener(this);
-            }
-        }
-    };
 
 }

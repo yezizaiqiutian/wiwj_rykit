@@ -12,7 +12,13 @@ import java.lang.reflect.Field;
 
 public class ValueAnimatorUtil {
     /**
+     * /~chinese
      * 如果动画被禁用，则重置动画缩放时长
+     */
+
+    /**
+     * /~english
+     * If the animation is disabled, reset the animation scaling time
      */
     public static void resetDurationScaleIfDisable() {
         if (getDurationScale() == 0)
@@ -20,7 +26,13 @@ public class ValueAnimatorUtil {
     }
 
     /**
+     * /~chinese
      * 重置动画缩放时长
+     */
+
+    /**
+     * /~english
+     * If the animation is disabled, reset the animation scaling time
      */
     public static void resetDurationScale() {
         try {

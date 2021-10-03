@@ -78,7 +78,7 @@ public class GroupConversation extends BaseUiConversation {
 
     @Override
     public void onUserInfoUpdate(List<User> users) {
-        if (!TextUtils.isEmpty(mCore.getDraft()) || users == null || users.size() == 0) {
+        if (!TextUtils.isEmpty(mCore.getDraft()) || users == null || users.isEmpty()) {
             return; //有草稿时，会话内容里显示草稿，不需要处理用户信息
         }
         for (User user : users) {
@@ -88,6 +88,38 @@ public class GroupConversation extends BaseUiConversation {
                 SpannableStringBuilder builder = new SpannableStringBuilder();
                 builder.append(mPreString).append(user.name).append(COLON_SPLIT).append(messageSummary);
                 mConversationContent = builder;
+            }
+        }
+    }
+
+    @Override
+    public void onGroupInfoUpdate(List<Group> groups) {
+        if (groups == null || groups.isEmpty()) {
+            return;
+        }
+        for (Group group : groups) {
+            if (group.id.equals(mCore.getTargetId())) {
+                RLog.d(TAG, "onGroupInfoUpdate. name:" + group.name);
+                mCore.setConversationTitle(group.name);
+                mCore.setPortraitUrl(group.portraitUrl);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onGroupMemberUpdate(List<GroupMember> groupMembers) {
+        if (groupMembers == null || groupMembers.isEmpty()) {
+            return;
+        }
+        for (GroupMember groupMember : groupMembers) {
+            if (groupMember != null && groupMember.groupId.equals(mCore.getTargetId())
+                    && groupMember.userId.equals(mCore.getSenderUserId())) {
+                mNicknameIds.add(groupMember.userId);
+                mCore.setSenderUserName(groupMember.memberName);
+                Spannable messageSummary = RongConfigCenter.conversationConfig().getMessageSummary(mContext, mCore.getLatestMessage());
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append(mPreString).append(TextUtils.isEmpty(mCore.getSenderUserName()) ? "" : mCore.getSenderUserName()).append(messageSummary);
             }
         }
     }
@@ -114,38 +146,5 @@ public class GroupConversation extends BaseUiConversation {
             }
         }
         buildConversationContent();
-    }
-
-    @Override
-    public void onGroupInfoUpdate(List<Group> groups) {
-        if (groups == null || groups.size() == 0) {
-            return;
-        }
-        for (Group group : groups) {
-            if (group.id.equals(mCore.getTargetId())) {
-                RLog.d(TAG, "onGroupInfoUpdate. name:" + group.name);
-                mCore.setConversationTitle(group.name);
-                mCore.setPortraitUrl(group.portraitUrl);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onGroupMemberUpdate(List<GroupMember> groupMembers) {
-        if (groupMembers == null || groupMembers.size() == 0) {
-            return;
-        }
-        for (GroupMember groupMember : groupMembers) {
-            if (groupMember != null && groupMember.groupId.equals(mCore.getTargetId())
-                    && groupMember.userId.equals(mCore.getSenderUserId())) {
-                mNicknameIds.add(groupMember.userId);
-                mCore.setSenderUserName(groupMember.memberName);
-                Spannable messageSummary = RongConfigCenter.conversationConfig().getMessageSummary(mContext, mCore.getLatestMessage());
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                builder.append(mPreString).append(mCore.getSenderUserName()).append(messageSummary);
-            }
-        }
-
     }
 }

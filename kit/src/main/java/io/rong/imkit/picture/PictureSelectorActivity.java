@@ -191,6 +191,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
             mTvPicturePreview.setSelected(false);
         }
     }
+
     /**
      * 加载数据
      */
@@ -572,7 +573,10 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                             + config.maxSelectNum + getString(R.string.rc_picture_message_max_num_sec));
                 }
             }
-            adapter.notifyDataSetChanged();
+
+            //规避IndexOutOfBoundException异常
+            adapter.bindImagesData(images);
+
             // 解决部分手机拍照完Intent.ACTION_MEDIA_SCANNER_SCAN_FILE，不及时刷新问题手动添加
             manualSaveFolder(media);
             mTvEmpty.setVisibility(images.size() > 0 ? View.INVISIBLE : View.VISIBLE);

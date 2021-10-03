@@ -16,6 +16,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.FileMessage;
 
+//gh_change
 public class RouteUtils {
     public static final String CONVERSATION_TYPE = "ConversationType";
     public static final String TARGET_ID = "targetId";
@@ -28,17 +29,41 @@ public class RouteUtils {
     public static final String MESSAGE = "message";
     private static HashMap<RongActivityType, Class<? extends Activity>> sActivityMap = new HashMap<>();
 
+
+//    public static void routeToConversationListActivity(Context context, String title) {
+//        Class<? extends Activity> activity = RongConversationListActivity.class;
+//        if (sActivityMap.get(RongActivityType.ConversationListActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.ConversationListActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        if (!TextUtils.isEmpty(title)) {
+//            intent.putExtra(TITLE, title);
+//        }
+//        context.startActivity(intent);
+//    }
+
     public static void routeToConversationActivity(Context context, Conversation.ConversationType type, String targetId) {
         routeToConversationActivity(context, type, targetId, null);
     }
 
     /**
+     * /~chinese
      * 启动会话页面
      *
      * @param context  上下文
      * @param type     会话类型
      * @param targetId 目标 ID
      * @param bundle   启动 activity 时 intent 里需要携带的 bundle 信息。
+     */
+
+    /**
+     * /~english
+     * Start the conversation page
+     *
+     * @param context  Context
+     * @param type     Conversation type
+     * @param targetId Target ID
+     * @param bundle   The bundle information that shall be carried in the intent when starting activity
      */
     public static void routeToConversationActivity(Context context, Conversation.ConversationType type, String targetId, Bundle bundle) {
         Class<? extends Activity> activity = RongConversationActivity.class;
@@ -55,25 +80,60 @@ public class RouteUtils {
     }
 
     /**
+     * /~chinese
      * 启动聚合会话页面
      *
      * @param context 上下文
      * @param type    聚合会话类型
      * @param title   标题
      */
-    public static void routeToSubConversationListActivity(Context context, Conversation.ConversationType type, String title) {
 
+    /**
+     * /~english
+     * Start the aggregation conversation page
+     *
+     * @param context Context
+     * @param type    Aggregate conversation type
+     * @param title   Title
+     */
+    public static void routeToSubConversationListActivity(Context context, Conversation.ConversationType type, String title) {
+//        Class<? extends Activity> activity = RongSubConversationListActivity.class;
+//        if (sActivityMap.get(RongActivityType.SubConversationListActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.SubConversationListActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.putExtra(CONVERSATION_TYPE, type);
+//        intent.putExtra(TITLE, title);
+//        context.startActivity(intent);
     }
 
     /**
+     * /~chinese
      * 启动 @ 功能选人页面
      *
      * @param context  上下文
      * @param targetId 目标 ID
      * @param type     会话类型
      */
-    public static void routeToMentionMemberSelectActivity(Context context, String targetId, Conversation.ConversationType type) {
 
+    /**
+     * /~english
+     * Start the @ function selection page
+     *
+     * @param context  Context
+     * @param targetId Target ID
+     * @param type     Conversation type
+     */
+    public static void routeToMentionMemberSelectActivity(Context context, String targetId, Conversation.ConversationType type) {
+//        Class<? extends Activity> activity = MentionMemberSelectActivity.class;
+//        if (sActivityMap.get(RongActivityType.MentionMemberSelectActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.MentionMemberSelectActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.putExtra(CONVERSATION_TYPE, type.getValue());
+//        intent.putExtra(TARGET_ID, targetId);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
     }
 
     public static void routeToWebActivity(Context context, String url) {
@@ -81,42 +141,104 @@ public class RouteUtils {
     }
 
     /**
+     * /~chinese
      * 启动 web view 页面
      *
      * @param context 上下文
      * @param url     远端 url 地址
      * @param title   标题
      */
-    public static void routeToWebActivity(Context context, String url, String title) {
 
+    /**
+     * /~english
+     * Start the web view page
+     *
+     * @param context Context
+     * @param url     Remote url address
+     * @param title   Title
+     */
+    public static void routeToWebActivity(Context context, String url, String title) {
+//        Class<? extends Activity> activity = RongWebviewActivity.class;
+//        if (sActivityMap.get(RongActivityType.RongWebViewActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.RongWebViewActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.putExtra("url", url);
+//        intent.putExtra("title", title);
+//        if (context instanceof Application)
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
     }
 
     public static void routeToFilePreviewActivity(Context context, Message message, FileMessage content, int progress) {
-
+//        Class<? extends Activity> activity = FilePreviewActivity.class;
+//        if (sActivityMap.get(RongActivityType.FilePreviewActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.FilePreviewActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.putExtra("FileMessage", content);
+//        intent.putExtra("Message", message);
+//        intent.putExtra("Progress", progress);
+//        context.startActivity(intent);
     }
 
     /**
+     * /~chinese
      * 启动转发时选择会话页面
      *
      * @param fragment   当前 fragment
      * @param type       转发类型。{@link ForwardClickActions.ForwardType}
      * @param messageIds 转发的消息 id 列表。
      */
-    public static void routeToForwardSelectConversationActivity(Fragment fragment, ForwardClickActions.ForwardType type, ArrayList<Integer> messageIds) {
 
+    /**
+     * /~english
+     * Select the conversation page when you start forwarding
+     *
+     * @param fragment   Current fragment
+     * @param type       Forwarding typeForwardClickActions.ForwardType
+     * @param messageIds Id list of forwarded messages
+     */
+    public static void routeToForwardSelectConversationActivity(Fragment fragment, ForwardClickActions.ForwardType type, ArrayList<Integer> messageIds) {
+//        Class<? extends Activity> activity = ForwardSelectConversationActivity.class;
+//        if (sActivityMap.get(RongActivityType.ForwardSelectConversationActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.ForwardSelectConversationActivity);
+//        }
+//        Intent intent = new Intent(fragment.getContext(), activity);
+//        intent.putExtra(FORWARD_TYPE, type.getValue());
+//        intent.putIntegerArrayListExtra(MESSAGE_IDS, messageIds);
+//        fragment.startActivityForResult(intent, ConversationFragment.REQUEST_CODE_FORWARD);
     }
 
     /**
+     * /~chinese
      * 启动合并转发消息的图片展示页面
      *
      * @param context 上下文
      * @param message 合并转发时携带的原始消息
      */
-    public static void routeToCombinePicturePagerActivity(Context context, Message message) {
 
+    /**
+     * /~english
+     * Start the image display page for merging and forwarding messages
+     *
+     * @param context Context
+     * @param message Merge the original messages carried during forwarding
+     */
+    public static void routeToCombinePicturePagerActivity(Context context, Message message) {
+//        Class<? extends Activity> activity = CombinePicturePagerActivity.class;
+//        if (sActivityMap.get(RongActivityType.CombinePicturePagerActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.CombinePicturePagerActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.setPackage(context.getApplicationContext().getPackageName());
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra("message", message);
+//        context.startActivity(intent);
     }
 
     /**
+     * /~chinese
      * 启动合并转发消息的在线展示页面
      *
      * @param context   上下文
@@ -125,11 +247,34 @@ public class RouteUtils {
      * @param type
      * @param title     标题
      */
-    public static void routeToCombineWebViewActivity(Context context, int messageId, String uri, String type, String title) {
 
+    /**
+     * /~english
+     * Start the online display page for merging and forwarding messages
+     *
+     * @param context   Context
+     * @param messageId Message id
+     * @param uri       Remote url address
+     * @param type
+     * @param title     Title
+     */
+    public static void routeToCombineWebViewActivity(Context context, int messageId, String uri, String type, String title) {
+//        Class<? extends Activity> activity = CombineWebViewActivity.class;
+//        if (sActivityMap.get(RongActivityType.CombineWebViewActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.CombineWebViewActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.setPackage(context.getPackageName());
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra("messageId", messageId);
+//        intent.putExtra("uri", uri);
+//        intent.putExtra("type", type);
+//        intent.putExtra("title", title);
+//        context.startActivity(intent);
     }
 
     /**
+     * /~chinese
      * 启动文件在线浏览页面
      *
      * @param context  上下文
@@ -137,8 +282,27 @@ public class RouteUtils {
      * @param fileName 文件名称
      * @param fileSize 文件大小
      */
-    public static void routeToWebFilePreviewActivity(Context context, String fileUrl, String fileName, String fileSize) {
 
+    /**
+     * /~english
+     * Start the file online browsing page
+     *
+     * @param context  Context
+     * @param fileUrl  File remote address
+     * @param fileName File name
+     * @param fileSize File size
+     */
+    public static void routeToWebFilePreviewActivity(Context context, String fileUrl, String fileName, String fileSize) {
+//        Class<? extends Activity> activity = WebFilePreviewActivity.class;
+//        if (sActivityMap.get(RongActivityType.WebFilePreviewActivity) != null) {
+//            activity = sActivityMap.get(RongActivityType.WebFilePreviewActivity);
+//        }
+//        Intent intent = new Intent(context, activity);
+//        intent.setPackage(context.getPackageName());
+//        intent.putExtra("fileUrl", fileUrl);
+//        intent.putExtra("fileName", fileName);
+//        intent.putExtra("fileSize", fileSize);
+//        context.startActivity(intent);
     }
 
     public static void registerActivity(RongActivityType activityType, Class<? extends Activity> activity) {

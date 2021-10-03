@@ -2,7 +2,6 @@ package io.rong.imkit.picture.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,7 +25,6 @@ import io.rong.imkit.picture.photoview.PhotoView;
 import io.rong.imkit.picture.tools.MediaUtils;
 import io.rong.imkit.picture.tools.SdkVersionUtils;
 import io.rong.imkit.picture.widget.longimage.ImageSource;
-import io.rong.imkit.picture.widget.longimage.ImageViewState;
 import io.rong.imkit.picture.widget.longimage.SubsamplingScaleImageView;
 
 /**

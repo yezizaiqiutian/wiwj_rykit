@@ -45,10 +45,19 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 初始化，SDK 在初始化时已调用此方法，用户不需要再调用。
      *
      * @param context 应用上下文.
      * @param appKey  应用 key.
+     */
+
+    /**
+     * /~english
+     * Initialization, this method has been called by SDK during initialization, and the user needs not call it again.
+     *
+     * @param context Application context
+     * @param appKey Apply key
      */
     public static void init(Context context, String appKey) {
         RLog.d(TAG, "init");
@@ -58,6 +67,7 @@ public class RongExtensionManager {
         mApplicationContext = context;
         mExtensionConfig = new DefaultExtensionConfig();
         mExtModules.clear();
+        //gh_change
 //        mExtModules.add(new LocationExtensionModule());
 //        mExtModules.add(new ForwardExtensionModule());
 
@@ -85,7 +95,15 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 设置输入栏相关配置。
+     *
+     * @param extensionConfig
+     */
+
+    /**
+     * /~english
+     * Set the configuration related to the input field.
      *
      * @param extensionConfig
      */
@@ -98,6 +116,7 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 注册自定义的 {@link IExtensionModule},注册后，可以通过 {@link #getExtensionModules()} 获取已注册的 module
      * <pre>
      * 注意：
@@ -107,6 +126,13 @@ public class RongExtensionManager {
      *
      * @param extensionModule 自定义模块。
      * @throws IllegalArgumentException IExtensionModule 参数非法时，抛出异常
+     */
+
+    /**
+     * /~english
+     * After registering a custom IExtensionModule,you can obtain the registered module through getExtensionModules()
+     *
+     * @param extensionModule Custom module.
      */
     public void registerExtensionModule(IExtensionModule extensionModule) {
         if (mExtModules == null) {
@@ -142,6 +168,7 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 添加自定义的 {@link IExtensionModule},添加后，可以通过 {@link #getExtensionModules()} 获取已注册的 module
      * <pre>
      * 注意：
@@ -152,6 +179,13 @@ public class RongExtensionManager {
      *
      * @param extensionModule 自定义模块。
      * @throws IllegalArgumentException IExtensionModule 参数非法时，抛出异常
+     */
+
+    /**
+     * /~english
+     * After adding a custom IExtensionModule,you can obtain the registered module through getExtensionModules()
+     *
+     * @param extensionModule  Custom module.
      */
     public void addExtensionModule(IExtensionModule extensionModule) {
         if (mExtModules == null) {
@@ -167,6 +201,7 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 注销 {@link IExtensionModule} 模块
      * <pre>
      * 注意：
@@ -176,6 +211,13 @@ public class RongExtensionManager {
      *
      * @param extensionModule 已注册的 IExtensionModule 模块
      * @throws IllegalArgumentException IExtensionModule 参数非法时，抛出异常
+     */
+
+    /**
+     * /~english
+     * Log out of the IExtensionModule module
+     *
+     * @param extensionModule Registered IExtensionModule module
      */
     public void unregisterExtensionModule(IExtensionModule extensionModule) {
         if (mExtModules == null) {
@@ -190,9 +232,17 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * 获取已注册的模块。
      *
      * @return 已注册的模块列表
+     */
+
+    /**
+     * /~english
+     * Get the registered module.
+     *
+     * @return List of registered modules
      */
     public List<IExtensionModule> getExtensionModules() {
         return mExtModules;
@@ -215,7 +265,13 @@ public class RongExtensionManager {
     }
 
     /**
+     * /~chinese
      * SDK 断开连接时，已调用此方法，用户不需要再次调用。
+     */
+
+    /**
+     * /~english
+     * This method has been called when SDK is disconnected, and the user does not shall call it again.
      */
     public void disconnect() {
         if (mExtModules == null) {

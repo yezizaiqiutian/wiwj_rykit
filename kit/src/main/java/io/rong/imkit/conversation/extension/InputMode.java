@@ -13,6 +13,7 @@ public enum InputMode {
     MoreInputMode,
     /*语音识别输入状态，点击语音输入plugin后触发*/
     RecognizeMode,
+    //gh_change
     /*常用语输入状态,点击常用语后触发*/
     PhraseMode
 

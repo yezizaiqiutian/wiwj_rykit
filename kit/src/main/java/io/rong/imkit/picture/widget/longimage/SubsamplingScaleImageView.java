@@ -2846,7 +2846,7 @@ public class SubsamplingScaleImageView extends View {
      * guaranteed to be on screen.
      *
      * @param sCenter Target center point
-     * @return {@link AnimationBuilder} instance. Call {@link SubsamplingScaleImageView.AnimationBuilder#start()} to start the anim.
+     * @return {@link AnimationBuilder} instance. Call {@link AnimationBuilder#start()} to start the anim.
      */
     public AnimationBuilder animateCenter(PointF sCenter) {
         if (!isReady()) {
@@ -2860,7 +2860,7 @@ public class SubsamplingScaleImageView extends View {
      * beyond the panning limits, the image is automatically panned during the animation.
      *
      * @param scale Target scale.
-     * @return {@link AnimationBuilder} instance. Call {@link SubsamplingScaleImageView.AnimationBuilder#start()} to start the anim.
+     * @return {@link AnimationBuilder} instance. Call {@link AnimationBuilder#start()} to start the anim.
      */
     public AnimationBuilder animateScale(float scale) {
         if (!isReady()) {
@@ -2875,7 +2875,7 @@ public class SubsamplingScaleImageView extends View {
      *
      * @param scale   Target scale.
      * @param sCenter Target source center.
-     * @return {@link AnimationBuilder} instance. Call {@link SubsamplingScaleImageView.AnimationBuilder#start()} to start the anim.
+     * @return {@link AnimationBuilder} instance. Call {@link AnimationBuilder#start()} to start the anim.
      */
     public AnimationBuilder animateScaleAndCenter(float scale, PointF sCenter) {
         if (!isReady()) {

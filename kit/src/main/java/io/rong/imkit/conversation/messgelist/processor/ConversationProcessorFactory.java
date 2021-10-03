@@ -7,8 +7,14 @@ import io.rong.imkit.feature.publicservice.PublicServiceBusinessProcessor;
 import io.rong.imlib.model.Conversation;
 
 /**
+ * /~chinese
  * 会话处理器工厂类。根据根据类型，生成不同的处理器，在此处理器中处理各类型会话的独立业务。
  * 可以通过设置自定义会话处理器，进行自定义业务处理。
+ */
+
+/**
+ * /~english
+ * conversation processor factory class. According to the type, different processors are generated, and the independent business of each type of conversation is handled in this processor. Custom business processing can be carried out by setting a custom conversation handler.
  */
 public class ConversationProcessorFactory {
     private static final String TAG = ConversationProcessorFactory.class.getSimpleName();
@@ -26,6 +32,7 @@ public class ConversationProcessorFactory {
         mProcessorMap.put(Conversation.ConversationType.GROUP, new GroupBusinessProcessor());
         mProcessorMap.put(Conversation.ConversationType.DISCUSSION, new GroupBusinessProcessor());
         mProcessorMap.put(Conversation.ConversationType.CHATROOM, new ChatRoomBusinessProcessor());
+        //gh_change
 //        mProcessorMap.put(Conversation.ConversationType.CUSTOMER_SERVICE, new CustomServiceBusinessProcessor());
         PublicServiceBusinessProcessor publicServiceProcessor = new PublicServiceBusinessProcessor();
         mProcessorMap.put(Conversation.ConversationType.PUBLIC_SERVICE, publicServiceProcessor);

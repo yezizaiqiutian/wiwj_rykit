@@ -248,9 +248,19 @@ public class PermissionCheckUtil {
     }
 
     /**
+     * /~chinese
      * 检查是否有悬浮窗权限
      *
      * @param context 上下文
+     * @return boolean whether have the permission
+     */
+
+    /**
+     * /~english
+     * Check to see if you have permission for floating windows
+     *
+     * @param context
+     * @param needOpenPermissionSetting
      * @return boolean whether have the permission
      */
     @TargetApi(19)

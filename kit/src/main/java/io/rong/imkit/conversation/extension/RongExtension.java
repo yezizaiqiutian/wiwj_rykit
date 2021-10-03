@@ -160,7 +160,7 @@ public class RongExtension extends LinearLayout {
                 }
             }, 100);
 
-            editText.setOnKeyListener(new View.OnKeyListener() {
+            editText.setOnKeyListener(new OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -182,10 +182,19 @@ public class RongExtension extends LinearLayout {
     }
 
     /**
+     * /~chinese
      * 获取 extension 各组成部分的容器
      *
      * @param type 容器类型
      * @return 容器
+     */
+
+    /**
+     * /~english
+     * Get the containers for each component of extension
+     *
+     * @param type Container type
+     * @return Container
      */
     public RelativeLayout getContainer(ContainerType type) {
         if (type == null) {
@@ -292,9 +301,15 @@ public class RongExtension extends LinearLayout {
     }
 
     /**
+     * /~chinese
      * 收起面板。
      * 兼容旧版本，保留此方法。
      * 推荐使用 ViewModel 对应方法。
+     */
+
+    /**
+     * /~english
+     * Collapse panel Compatible with older versions, keep this method. It is recommended to use the ViewModel correspondence method.
      */
     public void collapseExtension() {
         RLog.d(TAG, "collapseExtension");
@@ -302,10 +317,18 @@ public class RongExtension extends LinearLayout {
     }
 
     /**
+     * /~chinese
      * 在 plugin 界面添加自定义 view，添加后，+ 号区域全部填充为自定义的 view。
      * 当自定义 view 可见时点击 ”+“ 会触发自定义 view 和默认 plugin 界面间进行切换。
      *
      * @param v 自定义 view
+     */
+
+    /**
+     * /~english
+     * After adding a custom view on the plugin interface, the whole + area is filled with custom view. After adding a custom view, in the plugin interface, the + area is all filled with custom view.
+     *
+     * @param v Custom view
      */
     public void addPluginPager(View v) {
         if (null != mPluginBoard) {
@@ -318,18 +341,34 @@ public class RongExtension extends LinearLayout {
     }
 
     /**
+     * /~chinese
      * 获取当前 Extension 所在会话的会话类型。
      *
      * @return 会话类型。
+     */
+
+    /**
+     * /~english
+     * Get the conversation type of the current Extension conversation.
+     *
+     * @return Conversation type.
      */
     public Conversation.ConversationType getConversationType() {
         return mConversationType;
     }
 
     /**
+     * /~chinese
      * 获取当前所在会话的 targetId。
      *
      * @return 目标 id。
+     */
+
+    /**
+     * /~english
+     * Get the targetId of the current conversation.
+     *
+     * @return Target id.
      */
     public String getTargetId() {
         return mTargetId;
@@ -368,7 +407,13 @@ public class RongExtension extends LinearLayout {
     }
 
     /**
+     * /~chinese
      * activity 结束返回结果。
+     */
+
+    /**
+     * /~english
+     * The result is returned at the end of activity.
      */
     public void onActivityPluginResult(int requestCode, int resultCode, Intent data) {
         int position = (requestCode >> 8) - 1;
