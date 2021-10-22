@@ -1612,7 +1612,7 @@ public class MessageViewModel extends AndroidViewModel implements MessageEventLi
      */
     private void updateNoticeContent(ConnectionStatus status) {
         NoticeContent noticeContent = new NoticeContent();
-        String content = null;
+        String content = "无法连接到服务器, 请稍后再试";
         boolean isShowContent = true;
         int resId = 0;
 
