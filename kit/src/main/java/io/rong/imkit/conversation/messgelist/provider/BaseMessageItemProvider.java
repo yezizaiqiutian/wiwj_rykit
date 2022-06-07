@@ -71,33 +71,37 @@ public abstract class BaseMessageItemProvider<T extends MessageContent> implemen
 
     @Override
     public void bindViewHolder(final ViewHolder holder, final UiMessage uiMessage, final int position, final List<UiMessage> list, final IViewProviderListener<UiMessage> listener) {
-        if (uiMessage != null && uiMessage.getMessage() != null && listener != null) {
-            Message message = uiMessage.getMessage();
-            holder.setVisible(R.id.rc_selected, uiMessage.isEdit());
-            holder.setVisible(R.id.rc_v_edit, uiMessage.isEdit());
-            if (uiMessage.isEdit()) {
-                holder.setSelected(R.id.rc_selected, uiMessage.isSelected());
-                holder.setOnClickListener(R.id.rc_v_edit, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onViewClick(MessageClickType.EDIT_CLICK, uiMessage);
-                    }
-                });
-            }
-            boolean isSender = uiMessage.getMessage().getMessageDirection().equals(Message.MessageDirection.SEND);
-            initTime(holder, position, list, message);
-            initUserInfo(holder, uiMessage, position, listener, isSender);
-            initContent(holder, isSender, uiMessage, position, listener, list);
-            initStatus(holder, uiMessage, position, listener, message, isSender, list);
+        try {
+            if (uiMessage != null && uiMessage.getMessage() != null && listener != null) {
+                Message message = uiMessage.getMessage();
+                holder.setVisible(R.id.rc_selected, uiMessage.isEdit());
+                holder.setVisible(R.id.rc_v_edit, uiMessage.isEdit());
+                if (uiMessage.isEdit()) {
+                    holder.setSelected(R.id.rc_selected, uiMessage.isSelected());
+                    holder.setOnClickListener(R.id.rc_v_edit, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onViewClick(MessageClickType.EDIT_CLICK, uiMessage);
+                        }
+                    });
+                }
+                boolean isSender = uiMessage.getMessage().getMessageDirection().equals(Message.MessageDirection.SEND);
+                initTime(holder, position, list, message);
+                initUserInfo(holder, uiMessage, position, listener, isSender);
+                initContent(holder, isSender, uiMessage, position, listener, list);
+                initStatus(holder, uiMessage, position, listener, message, isSender, list);
 
-            if (holder instanceof MessageViewHolder) {
-                bindMessageContentViewHolder(((MessageViewHolder) holder).getMessageContentViewHolder(), holder, (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
+                if (holder instanceof MessageViewHolder) {
+                    bindMessageContentViewHolder(((MessageViewHolder) holder).getMessageContentViewHolder(), holder, (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
+                } else {
+                    RLog.e(TAG, "holder is not MessageViewHolder");
+                }
+                uiMessage.setChange(false);
             } else {
-                RLog.e(TAG, "holder is not MessageViewHolder");
+                RLog.e(TAG, "uiMessage is null");
             }
-            uiMessage.setChange(false);
-        } else {
-            RLog.e(TAG, "uiMessage is null");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -213,18 +217,22 @@ public abstract class BaseMessageItemProvider<T extends MessageContent> implemen
         holder.setOnClickListener(R.id.rc_content, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean result = false;
-                /**
-                 * 点击事件分发策略：应用 -> 各消息模板实现类 -> Processor
-                 */
-                if (RongConfigCenter.conversationConfig().getConversationClickListener() != null) {
-                    result = RongConfigCenter.conversationConfig().getConversationClickListener().onMessageClick(holder.getContext(), v, uiMessage.getMessage());
-                }
-                if (!result) {
-                    result = onItemClick(((MessageViewHolder) holder).getMessageContentViewHolder(), (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
-                    if (!result) {
-                        listener.onViewClick(MessageClickType.CONTENT_CLICK, uiMessage);
+                try {
+                    boolean result = false;
+                    /**
+                     * 点击事件分发策略：应用 -> 各消息模板实现类 -> Processor
+                     */
+                    if (RongConfigCenter.conversationConfig().getConversationClickListener() != null) {
+                        result = RongConfigCenter.conversationConfig().getConversationClickListener().onMessageClick(holder.getContext(), v, uiMessage.getMessage());
                     }
+                    if (!result) {
+                        result = onItemClick(((MessageViewHolder) holder).getMessageContentViewHolder(), (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
+                        if (!result) {
+                            listener.onViewClick(MessageClickType.CONTENT_CLICK, uiMessage);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -232,15 +240,19 @@ public abstract class BaseMessageItemProvider<T extends MessageContent> implemen
         holder.setOnLongClickListener(R.id.rc_content, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                boolean result = false;
-                if (RongConfigCenter.conversationConfig().getConversationClickListener() != null) {
-                    result = RongConfigCenter.conversationConfig().getConversationClickListener().onMessageLongClick(holder.getContext(), v, uiMessage.getMessage());
-                }
-                if (!result) {
-                    result = onItemLongClick(((MessageViewHolder) holder).getMessageContentViewHolder(), (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
-                    if (!result) {
-                        return listener.onViewLongClick(MessageClickType.CONTENT_LONG_CLICK, uiMessage);
+                try {
+                    boolean result = false;
+                    if (RongConfigCenter.conversationConfig().getConversationClickListener() != null) {
+                        result = RongConfigCenter.conversationConfig().getConversationClickListener().onMessageLongClick(holder.getContext(), v, uiMessage.getMessage());
                     }
+                    if (!result) {
+                        result = onItemLongClick(((MessageViewHolder) holder).getMessageContentViewHolder(), (T) uiMessage.getMessage().getContent(), uiMessage, position, list, listener);
+                        if (!result) {
+                            return listener.onViewLongClick(MessageClickType.CONTENT_LONG_CLICK, uiMessage);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return false;
             }
